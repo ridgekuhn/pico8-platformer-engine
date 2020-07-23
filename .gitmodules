@@ -1,0 +1,6 @@
+[submodule "vendor/picotool"]
+	path = vendor/picotool
+	url = git@github.com:dansanderson/picotool.git
+[submodule "vendor/pic2pico"]
+	path = vendor/pic2pico
+	url = git@github.com:nodepond/pic2pico.git
