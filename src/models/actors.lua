@@ -161,7 +161,7 @@ function actors:get_xmin()
 end
 
 function actors:get_xmax()
-	return self.x + self.hitbox.ox + self.hitbox.w
+	return self.x + self.hitbox.ox + self.hitbox.w - 1
 end
 
 function actors:get_ymin()
@@ -169,6 +169,6 @@ function actors:get_ymin()
 end
 
 function actors:get_ymax()
-	return self.y + self.hitbox.oy + self.hitbox.h
+	return self.y + self.hitbox.oy + self.hitbox.h - 1
 end
 

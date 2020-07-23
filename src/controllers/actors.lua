@@ -116,7 +116,7 @@ function actors:get_coll_solid(axis, d, dir)
   local dir = dir or self[axis..'dir']
 
   if(dir == 1) then
-    d += self['get_'..axis..'max'](self) - 1
+    d += self['get_'..axis..'max'](self)
   else
     d += self['get_'..axis..'min'](self)
   end
@@ -162,7 +162,7 @@ function actors:get_altitude()
     local c = self:get_coll_solid('y', i, 1)
 
     if(c) then
-      return c - self:get_ymax()
+      return c - self:get_ymax() - 1
     end
   end
 
