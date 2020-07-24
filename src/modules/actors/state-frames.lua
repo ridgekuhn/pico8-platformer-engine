@@ -18,15 +18,20 @@
 --******
 --models
 --******
----states table
---add this table template
+---sprite and states table
+--
+--add the sprite property
+--and states table
 --while/after instantiating
 --a child class of actors,
 --and before defining
 --the child's :new() method.
 --
+--@todo document this
+	--1-sx, 2-sy, 3-sw, 4-sh, 5-ox, 6-oy, 7-flip_ox, 8-flip_oy, 9-dw, 10-dh, 11-flip_x, 12-flip_y
+
 --some_new_actors = actors:new({
---	some_property = some_value,
+--	sprite = some_value,
 --
 --	states = {
 --		some_state =	{
@@ -57,6 +62,20 @@
 --		etc.
 --	}
 --})
+
+function actors:deserialize_frames()
+	for k, state in pairs(self.states) do
+		for table, strings in pairs(state.frames) do
+			if(table == 'sprites') then
+				for i=1, #strings do
+					if(type(strings[i] == 'string')) then
+						strings[i] = split(strings[i], ",")
+					end
+				end
+			end
+		end
+	end
+end
 
 --*****
 --views
@@ -146,3 +165,4 @@ function actors:get_frame(frames, clock)
 
   return frames.sprites[f], frames.hitboxes[f]
 end
+

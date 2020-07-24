@@ -30,7 +30,7 @@ end
 --camera boundaries
 function p:get_x_boundary(dx)
 	if(self.x + dx >= cam.x and
-		self.x + dx <= cam.x + 127 - self.sprite.sw
+		self.x + dx <= cam.x + 127 - 16
 	) then
 		return true
 	end
@@ -100,7 +100,7 @@ end
 ---controls player 1's state
 function p:update_state()
 	--load sprite and hitboxes
-	self.sprite, self.hitbox, self.bitmask = self:get_frame()
+	self.sprite, self.hitbox = self:get_frame()
 
 	if(self.state == 'idle') then
 		self:state_idle()

@@ -8,7 +8,7 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				{sx=0,sy=0,sw=16,sh=16}
+				'0,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				p.defaulthitbox
@@ -19,7 +19,7 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				{sx=64,sy=0,sw=16,sh=16}
+				'64,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				p.defaulthitbox
@@ -31,9 +31,9 @@ p.states= {
 			lpf = 5,
 			rev = true,
 			sprites = {
-				{sx=16,sy=0,sw=16,sh=16},
-				{sx=32,sy=0,sw=16,sh=16},
-				{sx=48,sy=0,sw=16,sh=16}
+				'16,0,16,16,0,0,0,0',
+				'32,0,16,16,0,0,0,0',
+				'48,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				p.defaulthitbox,
@@ -46,7 +46,7 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				{sx=112,sy=0,sw=16,sh=16}
+				'112,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				{w=14,h=14,ox=1,oy=2}
@@ -57,7 +57,7 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				{sx=80,sy=0,sw=16,sh=16}
+				'80,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				p.defaulthitbox
@@ -68,7 +68,7 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				{sx=96,sy=0,sw=16,sh=16}
+				'96,0,16,16,0,0,0,0'
 			},
 			hitboxes = {
 				{w=16,h=5,ox=0,oy=9}
@@ -76,6 +76,9 @@ p.states= {
 		}
 	}
 }
+
+--@todo document this
+p:deserialize_frames()
 
 p.states.falling = p.states.jumping
 
@@ -111,7 +114,11 @@ function p:spawn()
 	self.health = 100
 
 	self:set_state('idle', true)
-	self.sprite, self.hitbox, self.bitmask = self:get_frame()
+	self.sprite, self.hitbox = self:get_frame()
+	--
+	--@todo debug only, remove
+
+	self.hitbox = self.defaulthitbox
 
 	self.y = 0
 	self.altitude = self:get_altitude()
