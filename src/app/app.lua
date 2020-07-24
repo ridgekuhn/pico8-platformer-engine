@@ -1,6 +1,5 @@
 ---initialize app
 function _init()
-	--credits_init()
-	game_init()
+	credits_init()
 end
 
