@@ -111,11 +111,11 @@ end
 --@return num the draw
 --  coordinate of the
 --  map tile with sprite flag 0
-function actors:get_coll_solid(axis, d, dir)
+function actors:get_coll_solid(axis, d, ndir)
   local d = d or 0
-  local dir = dir or self[axis..'dir']
+  local ndir = ndir or self[axis..'dir']
 
-  if(dir == 1) then
+  if(ndir == 1) then
     d += self['get_'..axis..'max'](self)
   else
     d += self['get_'..axis..'min'](self)
