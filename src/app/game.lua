@@ -62,7 +62,10 @@ function game_running_draw()
 
 	--debug
 	p[1]:draw_hitbox()
-	p[1]:draw_coll_aabb(p[2])
+
+	if(#p == 2) then
+		p[1]:draw_coll_aabb(p[2])
+	end
 
 	print('mem: '..stat(0), 0, 0, 7)
 	print('cpu: '..stat(1), 0, 7, 7)
