@@ -1,17 +1,16 @@
 ---player 1 model
 
 --describe default player properties
-p.defaulthitbox = {w=6,h=16,ox=5,oy=0}
 
 p.states= {
 	idle = {
 		frames = {
 			lpf = 1,
 			sprites = {
-				'0,0,16,16,0,0,0,0'
+				'0,0,8,16,5,0,3,0'
 			},
 			hitboxes = {
-				p.defaulthitbox
+				'6,16,5,0'
 			}
 		}
 	},
@@ -19,10 +18,10 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				'64,0,16,16,0,0,0,0'
+				'40,0,15,16,0,0,1,0'
 			},
 			hitboxes = {
-				p.defaulthitbox
+				'6,16,5,0'
 			}
 		}
 	},
@@ -31,14 +30,14 @@ p.states= {
 			lpf = 5,
 			rev = true,
 			sprites = {
-				'16,0,16,16,0,0,0,0',
-				'32,0,16,16,0,0,0,0',
-				'48,0,16,16,0,0,0,0'
+				'8,0,12,16,2,0,2,0',
+				'19,0,9,16,3,0,4,0',
+				'28,0,12,16,2,0,2,0'
 			},
 			hitboxes = {
-				p.defaulthitbox,
-				p.defaulthitbox,
-				p.defaulthitbox
+				'6,16,5,0',
+				'6,16,5,0',
+				'6,16,5,0'
 			}
 		}
 	},
@@ -46,10 +45,10 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				'112,0,16,16,0,0,0,0'
+				'82,0,15,16,0,0,1,0'
 			},
 			hitboxes = {
-				{w=14,h=14,ox=1,oy=2}
+				'14,14,1,2'
 			}
 		}
 	},
@@ -57,10 +56,10 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				'80,0,16,16,0,0,0,0'
+				'55,0,11,16,3,0,4,0'
 			},
 			hitboxes = {
-				p.defaulthitbox
+				'6,16,5,0'
 			}
 		}
 	},
@@ -68,10 +67,10 @@ p.states= {
 		frames = {
 			lpf = 1,
 			sprites = {
-				'96,0,16,16,0,0,0,0'
+				'66,0,16,8,0,8,0,8'
 			},
 			hitboxes = {
-				{w=16,h=5,ox=0,oy=9}
+				'16,6,0,9'
 			}
 		}
 	}
@@ -115,10 +114,6 @@ function p:spawn()
 
 	self:set_state('idle', true)
 	self.sprite, self.hitbox = self:get_frame()
-	--
-	--@todo debug only, remove
-
-	self.hitbox = self.defaulthitbox
 
 	self.y = 0
 	self.altitude = self:get_altitude()

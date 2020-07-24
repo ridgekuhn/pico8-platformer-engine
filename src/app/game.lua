@@ -61,6 +61,8 @@ function game_running_draw()
 	hud_draw()
 
 	--debug
+	p[1]:draw_origin()
+	p[1]:draw_sprite_boundaries()
 	p[1]:draw_hitbox()
 
 	if(#p == 2) then

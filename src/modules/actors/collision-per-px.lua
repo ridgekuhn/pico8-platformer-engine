@@ -5,17 +5,17 @@
 --axis-aligned bounding boxes
 --and bitmasks
 --
---requirements:
---	none
+--dependencies:
+--  none
 --
 --extends:
---	none
+--  none
 --
 --conflicts:
---	actors/state-frames
---		@see actors:get_frame()
---	actors/collision-aabb
---		@see actors:get_coll_aabb()
+--  actors/state-frames
+--    @see actors:get_frame()
+--  actors/collision-aabb
+--    @see actors:get_coll_aabb()
 
 --******
 --global
@@ -33,40 +33,40 @@
 --@see https://www.lexaloffle.com/bbs/?pid=70445#p
 --
 --@param sprite table
---	of sprite data
+--  of sprite data
 --
 --@param hitbox table
---	of hitbox data
+--  of hitbox data
 --
 --@param tcol num transparent
---	color in spritesheet
+--  color in spritesheet
 function make_bitmask(sprite, hitbox, tcol)
-	local tcol = tcol or 0
+  local tcol = tcol or 0
 
-	assert(flr(hitbox.w/32) <= 1, '32+ pixels wide not supported')
+  assert(flr(hitbox[1]/32) <= 1, '32+ pixels wide not supported')
 
-	local bitmask = {}
-	local bitmask_flip_x = {}
+  local bitmask = {}
+  local bitmask_flip_x = {}
 
-	for y = 0, hitbox.h - 1 do
-		local bits = 0
-		local bits_flip_x = 0
+  for y = 0, hitbox[2] - 1 do
+    local bits = 0
+    local bits_flip_x = 0
 
-		for x = 0, hitbox.w - 1 do
-			local mask = 0x8000.0000
-			local col = sget(sprite.sx + hitbox.ox + x, sprite.sy + hitbox.oy + y)
+    for x = 0, hitbox[1] - 1 do
+      local mask = 0x8000.0000
+      local col = sget(sprite.sx + hitbox[3] + x, sprite.sy + hitbox[4] + y)
 
-			if(col ~= tcol) then
-				bits = bits |	(mask >>> x)
-				bits_flip_x = bits_flip_x | (mask <<> x + 1)
-			end
-		end
+      if(col ~= tcol) then
+        bits = bits |  (mask >>> x)
+        bits_flip_x = bits_flip_x | (mask <<> x + 1)
+      end
+    end
 
-		bitmask[y] = bits
-		bitmask_flip_x[y] = bits_flip_x << 32 - hitbox.w
-	end
+    bitmask[y] = bits
+    bitmask_flip_x[y] = bits_flip_x << 32 - hitbox[1]
+  end
 
-	return bitmask, bitmask_flip_x
+  return bitmask, bitmask_flip_x
 end
 
 --******
@@ -78,14 +78,14 @@ end
 --and creates bitmasks
 --for each state's frames
 function actors:set_bitmasks()
-	for k, state in pairs(self.states) do
-		state.frames.bitmasks = {}
-		state.frames.bitmasks_flip_x = {}
+  for k, state in pairs(self.states) do
+    state.frames.bitmasks = {}
+    state.frames.bitmasks_flip_x = {}
 
-		for i=1, #state.frames.sprites do
-			state.frames.bitmasks[i], state.frames.bitmasks_flip_x[i] = make_bitmask(state.frames.sprites[i], state.frames.hitboxes[i])
-		end
-	end
+    for i=1, #state.frames.sprites do
+      state.frames.bitmasks[i], state.frames.bitmasks_flip_x[i] = make_bitmask(state.frames.sprites[i], state.frames.hitboxes[i])
+    end
+  end
 end
 
 --***********
@@ -119,14 +119,14 @@ end
 --  of hitbox metadata
 --
 --@return table
---	of bitmask metadata
+--  of bitmask metadata
 function actors:get_frame(frames, clock)
   local frames = frames or self.states[self.state].frames
   local clock = clock or self.sclock
   local bitmask = {}
 
   frames.hitboxes = frames.hitboxes or {}
-	frames.bitmasks = frames.bitmasks or {}
+  frames.bitmasks = frames.bitmasks or {}
 
   if(self.xdir == 1) then
     bitmask = frames.bitmasks
@@ -216,13 +216,13 @@ end
 --  coordinate of the collision
 --
 --@return num top draw
---	coordinate of the collision
+--  coordinate of the collision
 --
 --@return num rightmost draw
---	coordinate of the collision
+--  coordinate of the collision
 --
 --@return num bottom draw
---	coordinate of the collision
+--  coordinate of the collision
 --
 --@return table leftmost actor
 --
@@ -270,7 +270,7 @@ end
 --  collisions against
 --
 --@return bool true
---	if collision detected
+--  if collision detected
 function actors:get_coll_px(actor)
   local hit, xmin, ymin, xmax, ymax, l, r = self:get_coll_aabb(actor)
 

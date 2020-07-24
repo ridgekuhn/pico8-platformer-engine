@@ -6,8 +6,9 @@
 --properties using the
 --state and sclock properties
 --
---requirements:
---	none
+--dependencies:
+--	actors/draw-sprite
+--		@see actors:draw_sprite()
 --
 --extends:
 --	none
@@ -18,55 +19,131 @@
 --******
 --models
 --******
----sprite and states table
+---states table property
 --
---add the sprite property
---and states table
+--add the states table
 --while/after instantiating
 --a child class of actors,
 --and before defining
 --the child's :new() method.
 --
---@todo document this
-	--1-sx, 2-sy, 3-sw, 4-sh, 5-ox, 6-oy, 7-flip_ox, 8-flip_oy, 9-dw, 10-dh, 11-flip_x, 12-flip_y
-
---some_new_actors = actors:new({
---	sprite = some_value,
+--hitboxes definitions
+--are optional, but if you
+--do define them,
+--#hitboxes must equal #sprites
 --
---	states = {
---		some_state =	{
---			frames = {
---				lpf = 1,
---				sprites = {
---					{
---						sx = 0,
---						sy = 0,
---						sw = 8,
---						sh = 8,
---						dw = 8, --optional
---						dh = 8, --optional
---						flip_x = false, --optional
---						flip_y = false, --optional
---					},
---					hitboxes = {
+--@usage
+--	some_new_actors = actors:new({
+--		states = {
+--			some_state =	{
+--				frames = {
+--					lpf = 1,
+--					sprites = {
 --						{
---							w = 8,
---							h = 8,
---							ox = 0,
---							oy = 0,
+--							--spritesheet x position
+--							[1] = 0,
+--
+--							--spritesheet y position
+--							[2] = 0,
+--
+--							--sprite width
+--							[3] = 8,
+--
+--							--sprite height
+--							[4] = 8,
+--
+--							--x-offset from self.x
+--							[5] = 0,
+--
+--							--y-offset from self.y
+--							[6] = 0,
+--
+--							--x-offset from self.x
+--							--when sprite is
+--							--flipped horizontally
+--							[7] = 0,
+--
+--							--y-offset from self.y
+--							--when sprite is
+--							--flipped vertically
+--							[8] = 0,
+--
+--							--optional, draw width
+--							[9] = 8,
+--
+--							--optional, draw height
+--							[10] = 8,
+--
+--							--optional, flip_x
+--							[11] = nil,
+--
+--							--optional, flip_y
+--							[12] = nil
+--						},
+--						--etc.
+--
+--						hitboxes = {
+--							{
+--								--height
+--								[1] = 8,
+--
+--								--width
+--								[2] = 8,
+--
+--								--x-offset from self.x
+--								[3] = 0,
+--
+--								--y-offset from self.y
+--								[4] = 0
+--							},
+--							--etc.
 --						}
 --					}
 --				}
---			}
---		},
---		etc.
---	}
---})
+--			},
+--			--etc.
+--		}
+--	})
 
+---deserialize frame strings
+--
+--to save on tokens, you can
+--serialize sprite and hitbox
+--frame data as
+--a comma-delimited string,
+--and then call this function
+--to convert the string
+--back to a table.
+--
+--@usage
+--	some_actors = actors:new({
+--		states = {
+--			some_state =	{
+--				frames = {
+--					lpf = 1,
+--					sprites = {
+--						'0,0,8,8,0,0,0,0',
+--						'8,0,8,8,0,0,0,0',
+--						'16,0,8,8,0,0,0,0'
+--					},
+--					hitboxes = {
+--						'8,8,0,0',
+--						'8,8,0,0',
+--						'8,8,0,0'
+--					}
+--				}
+--			},
+--			--etc
+--		}
+--	})
+--
+--	some_actors:deserialize_frames()
 function actors:deserialize_frames()
 	for k, state in pairs(self.states) do
 		for table, strings in pairs(state.frames) do
-			if(table == 'sprites') then
+			if(table == 'sprites' or
+				table == 'hitboxes'
+			) then
 				for i=1, #strings do
 					if(type(strings[i] == 'string')) then
 						strings[i] = split(strings[i], ",")
@@ -76,6 +153,14 @@ function actors:deserialize_frames()
 		end
 	end
 end
+
+---sprite property
+--
+--set using
+--@see actors:get_frame()
+--
+--@usage
+--	some_actors.sprite = some_actors:get_frame()
 
 --*****
 --views
@@ -93,7 +178,7 @@ end
 --any arbitrary clock
 --
 --@usage
---  self.sprite, self.hitbox = self:set_sprite()
+--  self.sprite, self.hitbox = self:get_frame()
 --
 --@param sprites table optional
 --  set of sprite data

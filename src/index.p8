@@ -21,7 +21,6 @@ __lua__
 
 -->8
 ---engine views
-#include ./views/actors.lua
 
 -->8
 ---app
@@ -40,6 +39,8 @@ __lua__
 #include ./modules/actors/state-frames.lua
 #include ./modules/actors/collision-aabb.lua
 
+#include ./modules/actors/draw-sprite.lua
+
 -->8
 ---demo models
 #include ./models/demo-players.lua
@@ -56,6 +57,7 @@ __lua__
 
 -->8
 ---demo debug
+#include ./views/actors-debug.lua
+#include ./modules/actors/draw-sprite-debug.lua
 #include ./modules/actors/collision-aabb-debug.lua
-
 

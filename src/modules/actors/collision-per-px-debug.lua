@@ -18,16 +18,16 @@
 --  collisions against
 --
 --@return table bitmask for
---	sprite collisions
---	relative to
---	leftmost actor
---	as determined by
---	@see actors:get_coll_aabb()
+--  sprite collisions
+--  relative to
+--  leftmost actor
+--  as determined by
+--  @see actors:get_coll_aabb()
 --
 --@return leftmost actor
 --
 --@return y-offset of collision
---	relative to leftmost actor
+--  relative to leftmost actor
 function actors:get_coll_px(actor)
   local hit, xmin, ymin, xmax, ymax, l, r = self:get_coll_aabb(actor)
 
@@ -62,14 +62,14 @@ end
 ---draw actor bitmask
 --
 --@param bitmask table
---	of bitmask data
+--  of bitmask data
 function actors:draw_bitmask(bitmask)
   local bitmask = bitmask or self.bitmask
 
   local mask = 0x8000.0000
 
-  for y=0, self.hitbox.h - 1 do
-    for x=0, self.hitbox.w - 1 do
+  for y=0, self.hitbox[2] - 1 do
+    for x=0, self.hitbox[1] - 1 do
       local bit = (mask >>> x) & self.bitmask[y]
 
       if(bit ~= 0) then
@@ -88,19 +88,19 @@ end
 --  to check for
 --  collisions against
 function actors:draw_coll_px(actor)
-	local coll_bitmask, l_actor, ymin = self:get_coll_px(actor)
+  local coll_bitmask, l_actor, ymin = self:get_coll_px(actor)
 
-	if(coll_bitmask) then
-		local mask = 0x8000.0000
+  if(coll_bitmask) then
+    local mask = 0x8000.0000
 
-		for y=0, #coll_bitmask - 1 do
-			for x=0, l_actor.hitbox.w - 1 do
-				local bit = (mask >>> x) & coll_bitmask[y + 1]
+    for y=0, #coll_bitmask - 1 do
+      for x=0, l_actor.hitbox[1] - 1 do
+        local bit = (mask >>> x) & coll_bitmask[y + 1]
 
-				if(bit~= 0) then
-					pset(l_actor:get_xmin() + x, l_actor:get_ymin() + ymin + y, 8)
-				end
-			end
-		end
-	end
+        if(bit~= 0) then
+          pset(l_actor:get_xmin() + x, l_actor:get_ymin() + ymin + y, 8)
+        end
+      end
+    end
+  end
 end

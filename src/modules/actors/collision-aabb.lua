@@ -4,12 +4,15 @@
 --have collided using
 --axis-aligned bounding boxes
 --
---requirements:
+--dependencies:
+--	none
 --
 --extends:
+--	none
 --
 --conflicts:
 --	actors/collision-per-pixel
+--		@see actors:get_coll_aabb()
 
 --***********
 --controllers
@@ -76,3 +79,4 @@ function actors:get_coll_aabb(actor)
       min(l_ymax, r_ymax)
   end
 end
+
