@@ -1,6 +1,5 @@
 ---camera functions
 
----initialize camera
 function camera_init()
   cam = {
     x = 0,
@@ -9,7 +8,6 @@ function camera_init()
   }
 end
 
----follow player 1
 function camera_follow()
   local newx = mid(0, p[1].x - 56, 64)
   local dx = newx - cam.x
@@ -29,7 +27,6 @@ function camera_follow()
   camera(cam.x, cam.y)
 end
 
----shake camera
 function camera_shake()
   if(cam.shake > 0) then
     cam.x += cam.shake - (rnd(cam.shake * 2))

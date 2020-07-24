@@ -1,45 +1,5 @@
 ---per-pixel collisions
---
---detect if actors have collided
---using a combination of
---axis-aligned bounding boxes
---and bitmasks
---
---requirements:
---	none
---
---extends:
---	none
---
---conflicts:
---	actors/state-frames
---		@see actors:get_frame()
---	actors/collision-aabb
---		@see actors:get_coll_aabb()
 
---******
---global
---******
----create bitmasks
---
---converts sprite/hitbox data to
---a bitmask for "pixel perfect"
---collision detection
---@see actors:set_bitmask()
---@see actors:get_coll_px()
---
---informed by:
---freds72 per-pixel api
---@see https://www.lexaloffle.com/bbs/?pid=70445#p
---
---@param sprite table
---	of sprite data
---
---@param hitbox table
---	of hitbox data
---
---@param tcol num transparent
---	color in spritesheet
 function make_bitmask(sprite, hitbox, tcol)
 	local tcol = tcol or 0
 
@@ -69,14 +29,6 @@ function make_bitmask(sprite, hitbox, tcol)
 	return bitmask, bitmask_flip_x
 end
 
---******
---models
---******
----set actor bitmasks
---
---iterates actor.states table
---and creates bitmasks
---for each state's frames
 function actors:set_bitmasks()
 	for k, state in pairs(self.states) do
 		state.frames.bitmasks = {}
@@ -88,38 +40,6 @@ function actors:set_bitmasks()
 	end
 end
 
---***********
---controllers
---***********
----frame animation
---
---set the actor sprite and
---corresponding hitbox by
---loading data from
---the actor's .states table
---
---can be overridden to load
---any arbitrary table of
---sprite metadata against
---any arbitrary clock
---
---@usage
---  self.sprite, self.hitbox = self:set_sprite()
---
---@param sprites table optional
---  set of sprite data
---
---@param clock num optional
---  clock to animate against
---
---@return table
---  of sprite metadata
---
---@return table
---  of hitbox metadata
---
---@return table
---	of bitmask metadata
 function actors:get_frame(frames, clock)
   local frames = frames or self.states[self.state].frames
   local clock = clock or self.sclock
@@ -138,35 +58,24 @@ function actors:get_frame(frames, clock)
     return frames.sprites[1], frames.hitboxes[1], bitmask[1]
   end
 
-  --total duration of animation
   local d = frames.lpf * #frames.sprites
   local aclock = 0
   local f = 0
 
-  --reset dirty animation
   if(clock == 0 and frames.r) then
     frames.r = nil
   end
 
-  --animation is not reversible
   if(not frames.rev) then
     aclock = clock % d
     f = flr((aclock / d) * #frames.sprites) + 1
 
-  --animation is reversible
   elseif(frames.rev) then
-    --total frames of reversed
-    --animation, excluding
-    --the first and last
     local nframes = (#frames.sprites * 2) - 2
-    --total duration
-    --of animation
     local rd = frames.lpf * nframes
 
     aclock = clock % rd
 
-    --animation is
-    --playing forward
     if(not frames.r) then
       f = flr((aclock / d) * #frames.sprites) + 1
 
@@ -174,8 +83,6 @@ function actors:get_frame(frames, clock)
         frames.r = true
       end
 
-    --animation is
-    --playing backwards
     else
       f = abs(flr((aclock / rd) * nframes) - (#frames.sprites * 2) + 1)
 
@@ -188,50 +95,10 @@ function actors:get_frame(frames, clock)
   return frames.sprites[f], frames.hitboxes[f], bitmask[f]
 end
 
----aabb sprite collision
---
---checks for collision with
---another actor object.
---
---@usage
---  function some_actor:check_hits()
---    for enemy in all(enemies) do
---      if(some_actor:coll_aabb(enemy)) then
---        do_something()
---      end
---    end
---  end
---
---@param actor table
---  to check for
---  collisions against
---
---@return boolean true if
---  collision detected
---
---@return num leftmost draw
---  coordinate of the collision
---
---@return num leftmost draw
---  coordinate of the collision
---
---@return num top draw
---	coordinate of the collision
---
---@return num rightmost draw
---	coordinate of the collision
---
---@return num bottom draw
---	coordinate of the collision
---
---@return table leftmost actor
---
---@return table rightmost actor
 function actors:get_coll_aabb(actor)
   local l = self
   local r = actor
 
-  --set leftmost actor
   if(l.x > r.x) l, r = r, l
 
   local l_xmin = flr(l:get_xmin())
@@ -244,7 +111,6 @@ function actors:get_coll_aabb(actor)
   local r_ymin = flr(r:get_ymin())
   local r_ymax = flr(r:get_ymax())
 
-  --check hitbox overlap
   if(l_xmin < r_xmax and
       l_xmax > r_xmin and
       l_ymin < r_ymax and
@@ -260,17 +126,6 @@ function actors:get_coll_aabb(actor)
   end
 end
 
----per-pixel sprite collision
---
---check if actor sprite pixels
---overlap with another actor
---
---@param actor table
---  to check for
---  collisions against
---
---@return bool true
---	if collision detected
 function actors:get_coll_px(actor)
   local hit, xmin, ymin, xmax, ymax, l, r = self:get_coll_aabb(actor)
 

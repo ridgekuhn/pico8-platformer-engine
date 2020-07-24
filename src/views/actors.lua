@@ -1,6 +1,5 @@
 ---actors class views
 
----draw the actor to the screen
 function actors:draw_sprite()
 	if(type(self.sprite) == 'number') then
 		local flip_x = self.xdir == -1

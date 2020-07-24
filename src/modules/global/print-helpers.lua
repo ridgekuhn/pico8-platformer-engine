@@ -1,6 +1,5 @@
 ---global view functions
 
----print centered
 function print_centered(str, camx, camy, col, shadow)
 	local camx = camx or 0
 	local camy = camy or 0
@@ -16,7 +15,6 @@ function print_centered(str, camx, camy, col, shadow)
 	end
 end
 
----print with drop shadow
 function print_shadow(str, camx, camy, col, scol)
 	local camx = camx or 0
 	local camy = camy or 0

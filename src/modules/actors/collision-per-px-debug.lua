@@ -1,33 +1,5 @@
 ---debug functions for actors/collision-per-px
 
---***********
---controllers
---***********
----per-pixel sprite collision
---
---overrides default method
---to draw overlapping sprites
---@see actors:draw_coll_px()
---
---the only difference is
---this returns a bitmask table
---instead of a boolean
---
---@param actor table
---  to check for
---  collisions against
---
---@return table bitmask for
---	sprite collisions
---	relative to
---	leftmost actor
---	as determined by
---	@see actors:get_coll_aabb()
---
---@return leftmost actor
---
---@return y-offset of collision
---	relative to leftmost actor
 function actors:get_coll_px(actor)
   local hit, xmin, ymin, xmax, ymax, l, r = self:get_coll_aabb(actor)
 
@@ -56,13 +28,6 @@ function actors:get_coll_px(actor)
   end
 end
 
---*****
---views
---*****
----draw actor bitmask
---
---@param bitmask table
---	of bitmask data
 function actors:draw_bitmask(bitmask)
   local bitmask = bitmask or self.bitmask
 
@@ -79,14 +44,6 @@ function actors:draw_bitmask(bitmask)
   end
 end
 
----draw sprite collisions
---
---draws the overlapping pixels
---of actor and another actor
---
---@param actor table
---  to check for
---  collisions against
 function actors:draw_coll_px(actor)
 	local coll_bitmask, l_actor, ymin = self:get_coll_px(actor)
 
