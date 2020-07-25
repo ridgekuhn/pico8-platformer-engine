@@ -99,8 +99,8 @@ end
 
 ---controls player 1's state
 function p:update_state()
-	--load sprite and hitboxes
-	self.sprite, self.hitbox = self:get_frame()
+	--load sprite, hitbox, bitmask
+	self.sprite, self.hitbox, self.bitmask = self:get_frame()
 
 	if(self.state == 'idle') then
 		self:state_idle()

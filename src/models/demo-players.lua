@@ -76,10 +76,11 @@ p.states= {
 	}
 }
 
---@todo document this
 p:deserialize_frames()
 
 p.states.falling = p.states.jumping
+
+p:set_bitmasks()
 
 p.dialogue = {
 	[1] = 'yawn...',
@@ -113,7 +114,7 @@ function p:spawn()
 	self.health = 100
 
 	self:set_state('idle', true)
-	self.sprite, self.hitbox = self:get_frame()
+	self.sprite, self.hitbox, self.bitmask = self:get_frame()
 
 	self.y = 0
 	self.altitude = self:get_altitude()

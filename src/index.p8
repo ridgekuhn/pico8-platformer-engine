@@ -29,21 +29,36 @@ __lua__
 
 -->8
 ---demo modules
+#include ./modules/global/camera.lua
 #include ./modules/global/print-helpers.lua
 
 #include ./modules/app/title-credits.lua
 #include ./modules/app/title-menu.lua
 #include ./modules/app/config-menu.lua
 
+#include ./modules/actors/collision-per-px.lua
+#include ./modules/actors/state-frames-deserialize.lua
+
+#include ./modules/actors/draw-sprite.lua
+
 -->8
 ---demo models
+#include ./models/demo-players.lua
 
 -->8
 ---demo controllers
+#include ./controllers/demo-players.lua
 
 -->8
 ---demo views
+#include ./views/demo-actors.lua
+#include ./views/demo-players.lua
+#include ./views/demo-hud.lua
 
 -->8
 ---demo debug
+#include ./views/actors-debug.lua
+#include ./modules/actors/draw-sprite-debug.lua
+#include ./modules/actors/collision-aabb-debug.lua
+#include ./modules/actors/collision-per-px-debug.lua
 
