@@ -10,10 +10,10 @@
 --	actors/draw-sprite
 --
 --extends:
---	none
+--	actors/collision-aabb
 --
 --conflicts:
---	none
+--	actors/collision-per-px
 
 --******
 --models

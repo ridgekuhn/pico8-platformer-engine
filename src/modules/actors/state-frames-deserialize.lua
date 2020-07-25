@@ -10,7 +10,7 @@
 --	actors/collision-per-px
 --
 --conflicts:
---	none
+--	actors/state-frames-sprite-groups
 
 --******
 --models
