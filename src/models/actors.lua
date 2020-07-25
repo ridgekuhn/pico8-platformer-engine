@@ -63,12 +63,6 @@ actors = {
   xdir = 1,
   ydir = 1,
 
-  --@see actors:get_fall()
-  altitude = nil,
-
-  --@see actors:get_jump()
-  rise = 8,
-
   -----------
   --collision
   -----------
