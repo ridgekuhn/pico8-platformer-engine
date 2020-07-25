@@ -36,6 +36,7 @@ __lua__
 #include ./modules/app/title-menu.lua
 #include ./modules/app/config-menu.lua
 
+#include ./modules/actors/2d-jump.lua
 #include ./modules/actors/collision-per-px.lua
 #include ./modules/actors/state-frames-deserialize.lua
 
