@@ -54,7 +54,7 @@ function make_bitmask(sprite, hitbox, tcol)
 
     for x = 0, hitbox[1] - 1 do
       local mask = 0x8000.0000
-      local col = sget(sprite.sx + hitbox[3] + x, sprite.sy + hitbox[4] + y)
+      local col = sget(sprite[1] - sprite[5] + hitbox[3] + x, sprite[2] - sprite[6] + hitbox[4] + y)
 
       if(col ~= tcol) then
         bits = bits |  (mask >>> x)
@@ -72,11 +72,22 @@ end
 --******
 --models
 --******
+---states table property
+--
+--behaves exactly as
+--@see /src/modules/actors/state-frames.lua
+--but we provide a modified
+--version of
+--@see actors:get_frame()
+
 ---set actor bitmasks
 --
 --iterates actor.states table
 --and creates bitmasks
---for each state's frames
+--for each state's frames.
+--
+--call after defining the
+--actor states table
 function actors:set_bitmasks()
   for k, state in pairs(self.states) do
     state.frames.bitmasks = {}
@@ -245,10 +256,10 @@ function actors:get_coll_aabb(actor)
   local r_ymax = flr(r:get_ymax())
 
   --check hitbox overlap
-  if(l_xmin < r_xmax and
-      l_xmax > r_xmin and
-      l_ymin < r_ymax and
-      l_ymax > r_ymin
+  if(l_xmin <= r_xmax and
+      l_xmax >= r_xmin and
+      l_ymin <= r_ymax and
+      l_ymax >= r_ymin
   ) then
     return true,
       r_xmin,
