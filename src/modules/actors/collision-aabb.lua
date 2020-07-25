@@ -67,10 +67,10 @@ function actors:get_coll_aabb(actor)
   local r_ymax = r:get_ymax()
 
   --check hitbox overlap
-  if(l_xmin < r_xmax and
-      l_xmax > r_xmin and
-      l_ymin < r_ymax and
-      l_ymax > r_ymin
+  if(l_xmin <= r_xmax and
+      l_xmax >= r_xmin and
+      l_ymin <= r_ymax and
+      l_ymax >= r_ymin
   ) then
     return true,
       r_xmin,
