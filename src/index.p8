@@ -38,6 +38,7 @@ __lua__
 
 #include ./modules/actors/state-frames.lua
 #include ./modules/actors/state-frames-sprite-groups.lua
+#include ./modules/actors/2d-jump.lua
 #include ./modules/actors/collision-aabb.lua
 
 -->8

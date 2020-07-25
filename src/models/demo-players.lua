@@ -124,6 +124,7 @@ function p:init()
 		add(self, self:new({
 			x = flr(rnd(112)),
 			speed = 2,
+			rise = 8,
 
 			lives = 3,
 			color = ceil(rnd(15)),
