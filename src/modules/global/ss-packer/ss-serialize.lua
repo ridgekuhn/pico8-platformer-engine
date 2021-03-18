@@ -19,6 +19,8 @@
 --
 --@param sh num spritesheet sh
 function ss_serialize(sx,sy,sw,sh)
+	assert(sx and sy and sw and sh)
+
   local clen = px9_comp(sx,sy,sw,sh,0x6000,sget)
   local str = ''
   for i = 0, clen, 4 do
