@@ -29,11 +29,11 @@ __lua__
 
 -->8
 ---demo modules
-#include ./modules/global/print-helpers.lua
+--#include ./modules/global/print-helpers.lua
 
-#include ./modules/app/title-credits.lua
-#include ./modules/app/title-menu.lua
-#include ./modules/app/config-menu.lua
+--#include ./modules/app/title-credits.lua
+--#include ./modules/app/title-menu.lua
+--#include ./modules/app/config-menu.lua
 
 -->8
 ---demo models
