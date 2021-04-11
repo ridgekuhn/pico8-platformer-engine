@@ -56,3 +56,14 @@ function cycle_palette(pal_swaps)
 
 	return new_p
 end
+
+function actors:cycle_palette()
+	for sprite in all(self.sprites) do
+		if (
+			sprite.pal_cycle
+			and self.sclock % sprite.pal_cycle == 0
+		) then
+			sprite.pal_swaps = cycle_palette(sprite.pal_swaps)
+		end
+	end
+end

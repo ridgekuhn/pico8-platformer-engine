@@ -1,35 +1,35 @@
----draw palette-cycled sprite
+---draw scaled, palette-cycled ss sprite
 --
---@param spr tbl a table of args
---	to pass to sspr()
---
---@param [cycle] bool call cycle_palette()
---
---@pram [clock] num animation clock
-function ssprc(spr, cycle, clock)
-	if (spr.pal_swaps) then
-		set_palette(spr.pal_swaps)
+--@param sprite tbl a single table of
+--	sprite data to use instead of
+--	all tables in actor.sprites
+function actors:ssprs(sprite)
+	local sprites = sprite and {sprite} or self.sprites
+
+	for sprite in all(sprites) do
+		local dx = sprite.dx or self.x + sprite[5]
+		local dy = sprite.dy or self.y + sprite[6]
+		local dw = sprite.dw or sprite[3]
+		local dh = sprite.dh or sprite[4]
+
+		if (sprite.pal_swaps) then
+			set_palette(sprite.pal_swaps)
+		end
+
+		sspr(
+			sprite[1],
+			sprite[2],
+			sprite[3],
+			sprite[4],
+			dx,
+			dy,
+			dw,
+			dh,
+			sprite.flip_x,
+			sprite.flip_y
+		)
+
+		pal()
+		palt()
 	end
-
-	sspr(
-		spr.sx,
-		spr.sy,
-		spr.sw,
-		spr.sh,
-		spr.dx,
-		spr.dy,
-		spr.dw,
-		spr.dh
-	)
-
-	if (
-		cycle
-		and spr.pal_cycle
-		and clock % spr.pal_cycle == 0
-	) then
-		spr.pal_swaps = cycle_palette(spr.pal_swaps)
-	end
-
-	pal()
-	palt()
 end

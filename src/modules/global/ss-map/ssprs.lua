@@ -4,10 +4,10 @@
 --	to pass to sspr()
 function ssprs(spr)
 	sspr(
-		spr.sx,
-		spr.sy,
-		spr.sw,
-		spr.sh,
+		spr[1],
+		spr[2],
+		spr[3],
+		spr[4],
 		spr.dx * cam.scale,
 		spr.dy * cam.scale,
 		spr.dw * cam.scale,

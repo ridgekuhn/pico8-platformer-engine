@@ -56,16 +56,16 @@
 --  [8] = 0,
 --
 --  --optional, draw width
---  [9] = 8,
+--  dw = 8,
 --
 --  --optional, draw height
---  [10] = 8,
+--  dh = 8,
 --
 --  --optional, flip_x
---  [11] = nil,
+--  flip_x = nil,
 --
 --  --optional, flip_y
---  [12] = nil
+--  flip_y = nil
 --},
 
 --*****
@@ -104,11 +104,11 @@ function actors:draw_sprite()
 	elseif(type(self.sprite == 'table')) then
 		local ox = self.xdir == 1 and self.sprite[5] or self.sprite[7]
 		local oy = self.ydir == 1 and self.sprite[6] or self.sprite[8]
-		local dw = self.sprite[9] or self.sprite[3]
-		local dh = self.sprite[10] or self.sprite[4]
-		local flip_x = self.sprite[11] or self.xdir == -1
+		local dw = self.sprite.dw or self.sprite[3]
+		local dh = self.sprite.dh or self.sprite[4]
+		local flip_x = self.sprite.flip_x or self.xdir == -1
 		--@todo is there ever a reason to flip_y?
-		local flip_y = self.sprite[12] --or self.ydir == -1
+		local flip_y = self.sprite.flip_y --or self.ydir == -1
 
 		sspr(self.sprite[1],
 				 self.sprite[2],
