@@ -1,3 +1,9 @@
+--store the global _ENV
+_G = _ENV
+--index self if no properties found
+--in new environment
+_G.__index = _G
+
 ---actor base class
 --the heart of the engine!
 
@@ -117,8 +123,12 @@ actors = {
 --  properties belonging
 --  to the new child class
 function actors:new(o)
+	--use global _ENV metatable
+	--for actors class and subclasses
+	setmetatable(actors, _G)
+
   local actor = o or {}
-  --use the parent table
+  --use the parent metatable
   --for instantiated objects
   setmetatable(actor, self)
   --fallback to the parent
