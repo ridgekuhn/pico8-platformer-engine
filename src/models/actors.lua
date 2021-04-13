@@ -82,20 +82,27 @@ actors = {
   --@see actors:get_ymin()
   --@see actors:get_ymax()
   --@see actors:get_map_solid_coll()
-  hitbox = {
-		--height
-    [1] = 8,
-		--width
-    [2] = 8,
-		--x-offset from self.x
-    [3] = 0,
-		--y-offset from self.y
-    [4] = 0
-  },
+  --hitbox = {
+	--	--height
+  --  [1] = 8,
+	--	--width
+  --  [2] = 8,
+	--	--x-offset from self.x
+  --  [3] = 0,
+	--	--y-offset from self.y
+  --  [4] = 0
+  --},
 
   ------
   --draw
   ------
+	--define manually as needed,
+	--or load with
+	--@see actors:get_frame()
+	--in /src/modules/actors/state-frames.lua
+	--sprite = {}
+	----or
+	--sprites = {{}}
 
   ------------
   --coroutines
