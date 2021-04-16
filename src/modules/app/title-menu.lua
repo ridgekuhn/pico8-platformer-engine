@@ -11,26 +11,31 @@ end
 ---update title menu
 function title_update()
 	--move cursor
-	if(btnp(⬇️) and
-		title_selection < 3) then
+	if
+		btnp(⬇️)
+		and title_selection < 3
+	then
 		sfx(8)
 		title_selection += 1
 
-	elseif(btnp(⬆️) and title_selection > 1) then
+	elseif
+		btnp(⬆️)
+		and title_selection > 1
+	then
 		sfx(8)
 		title_selection -= 1
 	end
 
-	if(btnp(🅾️)) then
-		if(title_selection == 1) then
+	if btnp(🅾️) then
+		if title_selection == 1 then
 			cfg.players = 1
 			game_init()
 
-		elseif(title_selection == 2) then
+		elseif title_selection == 2 then
 			cfg.players = 2
 			game_init()
 
-		elseif(title_selection == 3) then
+		elseif title_selection == 3 then
 			config_init()
 		end
 	end

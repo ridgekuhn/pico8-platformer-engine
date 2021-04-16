@@ -48,7 +48,7 @@ function actors:get_altitude()
   for i=1, 127, 8 do
     local c = self:get_coll_solid('y', i, 1)
 
-    if(c) then
+    if c then
       return c - self:get_ymax() - 1
     end
   end
@@ -82,7 +82,7 @@ end
 function actors:get_fall(m)
   local dy = get_gravity(self.sclock, m)
 
-  if(dy > self.altitude) then
+  if dy > self.altitude then
     return self.altitude
   end
 
@@ -122,7 +122,7 @@ function actors:get_jump(rise, m)
   local rise = rise or self.rise
   local decel = get_gravity(self.sclock, m)
 
-  if(decel >= rise) then
+  if decel >= rise then
     return 0
   else
     return -(rise - get_gravity(self.sclock))

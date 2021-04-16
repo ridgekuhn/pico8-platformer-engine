@@ -88,34 +88,36 @@
 --with no offset from
 --self.x/self.y
 function actors:draw_sprite()
-	if(type(self.sprite) == 'number') then
-		local flip_x = self.xdir == -1
+	local _ENV = self
+
+	if type(sprite) == 'number' then
+		local flip_x = xdir == -1
 		--@todo is there ever a reason to flip_y?
 		--local flip_y = self.ydir == -1
 
-		spr(self.sprite,
-				self.x,
-				self.y,
+		spr(sprite,
+				x,
+				y,
 				1,
 				1,
 				flip_x
 				--, flip_y
 		)
-	elseif(type(self.sprite == 'table')) then
-		local ox = self.xdir == 1 and self.sprite[5] or self.sprite[7]
-		local oy = self.ydir == 1 and self.sprite[6] or self.sprite[8]
-		local dw = self.sprite.dw or self.sprite[3]
-		local dh = self.sprite.dh or self.sprite[4]
-		local flip_x = self.sprite.flip_x or self.xdir == -1
+	elseif type(sprite == 'table') then
+		local ox = xdir == 1 and sprite[5] or sprite[7]
+		local oy = ydir == 1 and sprite[6] or sprite[8]
+		local dw = sprite.dw or sprite[3]
+		local dh = sprite.dh or sprite[4]
+		local flip_x = sprite.flip_x or xdir == -1
 		--@todo is there ever a reason to flip_y?
-		local flip_y = self.sprite.flip_y --or self.ydir == -1
+		local flip_y = sprite.flip_y --or ydir == -1
 
-		sspr(self.sprite[1],
-				 self.sprite[2],
-				 self.sprite[3],
-				 self.sprite[4],
-				 self.x + ox,
-				 self.y + oy,
+		sspr(sprite[1],
+				 sprite[2],
+				 sprite[3],
+				 sprite[4],
+				 x + ox,
+				 y + oy,
 				 dw,
 				 dh,
 				 flip_x,

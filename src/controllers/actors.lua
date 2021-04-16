@@ -53,7 +53,7 @@ function actors:set_state(state, no_update)
   self.state = state
   self.sclock = 0
 
-  if(not no_update) then
+  if not no_update then
     self:update_state()
   end
 end
@@ -65,9 +65,9 @@ end
 --  on this update loop
 function actors:update_cors(cors)
   for cor in all(cors) do
-    if(costatus(cor) == 'suspended') then
+    if costatus(cor) == 'suspended' then
       coresume(cor)
-    elseif(costatus(cor) == 'dead') then
+    elseif costatus(cor) == 'dead' then
       del(cors, cor)
     end
   end
@@ -115,17 +115,17 @@ function actors:get_coll_solid(axis, d, ndir)
   local d = d or 0
   local ndir = ndir or self[axis..'dir']
 
-  if(ndir == 1) then
+  if ndir == 1 then
     d += self['get_'..axis..'max'](self)
   else
     d += self['get_'..axis..'min'](self)
   end
 
-  if(axis == 'x') then
+  if axis == 'x' then
     local x = d
 
     for y = self:get_ymin(), self:get_ymax() - 1, 1 do
-      if(is_solid(x,y)) then
+      if is_solid(x,y) then
         return get_cel(x) * 8
       end
     end
@@ -133,7 +133,7 @@ function actors:get_coll_solid(axis, d, ndir)
     local y = d
 
     for x = self:get_xmin(), self:get_xmax() - 1, 1 do
-      if(is_solid(x,y)) then
+      if is_solid(x,y) then
         return get_cel(y) * 8
       end
     end
@@ -182,18 +182,19 @@ end
 --  the actor is allowed
 --  to move
 function actors:get_move(axis, d, in_bounds)
-  local d = d or (self.speed * self[axis..'dir'])
+  local d = d or self.speed * self[axis..'dir']
 
   for i = d, 0, -sgn(d) do
     local c = self:get_coll_solid(axis, i)
 
-    if(type(in_bounds) == 'function') then
-      if(not c and
-        in_bounds(self, i)
-      ) then
+    if type(in_bounds) == 'function' then
+      if
+				not c
+				and in_bounds(self, i)
+      then
         return i
       end
-    elseif(not c) then
+    elseif not c then
       return i
     end
   end

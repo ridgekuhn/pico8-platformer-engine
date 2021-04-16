@@ -104,11 +104,11 @@
 function actors:deserialize_frames()
 	for k, state in pairs(self.states) do
 		for table, v in pairs(state.frames) do
-			if(table == 'hitboxes') then
+			if table == 'hitboxes' then
 				for i=1, #v do
 					v[i] = split(v[i], ",")
 				end
-			elseif(table == 'sprites') then
+			elseif table == 'sprites' then
 				for spritegroup in all(v) do
 					for i=1, #spritegroup do
 						spritegroup[i] = split(spritegroup[i], ",")
@@ -131,21 +131,23 @@ end
 --this method will automatically
 --flip_x if self.xdir == -1
 function actors:draw_sprite()
-	for sprite in all(self.sprites) do
-		local ox = self.xdir == 1 and sprite[5] or sprite[7]
-		local oy = self.ydir == 1 and sprite[6] or sprite[8]
+	local _ENV = self
+
+	for sprite in all(sprites) do
+		local ox = xdir == 1 and sprite[5] or sprite[7]
+		local oy = ydir == 1 and sprite[6] or sprite[8]
 		local dw = sprite.dw or sprite[3]
 		local dh = sprite.dh or sprite[4]
-		local flip_x = sprite.flip_x or self.xdir == -1
+		local flip_x = sprite.flip_x or xdir == -1
 		--@todo is there ever a reason to flip_y?
-		local flip_y = sprite.flip_y --or self.ydir == -1
+		local flip_y = sprite.flip_y --or ydir == -1
 
 		sspr(sprite[1],
 				 sprite[2],
 				 sprite[3],
 				 sprite[4],
-				 self.x + ox,
-				 self.y + oy,
+				 x + ox,
+				 y + oy,
 				 dw,
 				 dh,
 				 flip_x,

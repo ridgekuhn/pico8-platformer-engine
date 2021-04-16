@@ -14,9 +14,9 @@ function camera_follow()
   local newx = mid(0, p[1].x - 56, 64)
   local dx = newx - cam.x
 
-  if(dx > 1) then
+  if dx > 1 then
     cam.x += 2
-  elseif(dx < -1) then
+  elseif dx < -1 then
     cam.x -= 2
   else
     cam.x = newx
@@ -31,13 +31,13 @@ end
 
 ---shake camera
 function camera_shake()
-  if(cam.shake > 0) then
+  if cam.shake > 0 then
     cam.x += cam.shake - (rnd(cam.shake * 2))
     cam.y += cam.shake - (rnd(cam.shake * 2))
 
     cam.shake *= .9
 
-    if(cam.shake < .1) then
+    if cam.shake < .1 then
       cam.shake = 0
     end
   end

@@ -9,7 +9,7 @@ function print_centered(str, camx, camy, col, shadow)
 	local x = camx + 64
 	local y = camy + 60
 
-	if(shadow) then
+	if shadow then
 		print_shadow(str, x - (#str * 2), y, col)
 	else
 		print(str, x - (#str * 2), y, col)

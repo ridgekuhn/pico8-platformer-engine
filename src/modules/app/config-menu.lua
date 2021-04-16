@@ -15,41 +15,41 @@ end
 ---update config menu
 function config_update()
 	--move cursor
-	if(btnp(⬇️) and cfg.cursor < 4) then
+	if btnp(⬇️) and cfg.cursor < 4 then
 		sfx(8)
 		cfg.cursor += 1
 
-	elseif(btnp(⬆️) and cfg.cursor > 1) then
+	elseif btnp(⬆️) and cfg.cursor > 1 then
 		sfx(8)
 		cfg.cursor -= 1
 	end
 
 	--player select
-	if(cfg.cursor == 1) then
-		if(btnp(⬅️)) then
+	if cfg.cursor == 1 then
+		if btnp(⬅️) then
 			sfx(8)
 			cfg.players = 1
-		elseif(btnp(➡️)) then
+		elseif btnp(➡️) then
 			sfx(8)
 			cfg.players = 2
 		end
 
 	--music toggle
-	elseif(cfg.cursor == 2) then
-		if(btnp(⬅️) or btnp(➡️)) then
+	elseif cfg.cursor == 2 then
+		if btnp(⬅️) or btnp(➡️) then
 			sfx(8)
 			cfg.music = not cfg.music
 		end
 
 	--save config
-	elseif(cfg.cursor == 3) then
-		if(btnp(🅾️)) then
+	elseif cfg.cursor == 3 then
+		if btnp(🅾️) then
 			game_init()
 		end
 
 	--cancel
-	elseif(cfg.cursor == 4) then
-		if(btnp(🅾️)) then
+	elseif cfg.cursor == 4 then
+		if btnp(🅾️) then
 			title_init()
 		end
 	end
@@ -65,7 +65,7 @@ function config_draw()
 	--cursor
 	local cursor = (cfg.cursor * 7) + 7
 
-	if(cfg.cursor >= 3) then
+	if cfg.cursor >= 3 then
 		cursor = (cfg.cursor * 7) + 14
 	end
 
@@ -74,7 +74,7 @@ function config_draw()
 	--menu options
 	print('#players: '..tostr(cfg.players), 8, 14, 7)
 
-	if(cfg.music) then
+	if cfg.music then
 		print('music: on', 8, 21, 7)
 	else
 		print('music: off', 8, 21, 7)

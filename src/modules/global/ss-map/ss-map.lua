@@ -104,24 +104,26 @@ end
 
 function ss_map:update()
 	for l in all(self) do
+		local _ENV = l
+
 		--subtract l.x last so l.x remains
 		--the initial map position of l
-		l.scrolledx = (cam.x * l.scroll) - l.x
+		scrolledx = (cam.x * scroll) - x
 		--get 0-index of current map cel
-		l.cur_map_0index = l.scrolledx \ l.sprites[1].dw
+		cur_map_0index = scrolledx \ sprites[1].dw
 
 		--default to 1 if the first x pos
 		--is out of range, so we can
 		--calculate props for
 		--the first drawn map cel
-		if (l.scrolledx < 0) then
-			l.cur_map_index = 1
+		if scrolledx < 0 then
+			cur_map_index = 1
 		--wrap back around map if l.infinite
-		elseif(l.infinite) then
-			l.cur_map_index = (l.cur_map_0index % #l.map) + 1
+		elseif infinite then
+			cur_map_index = (cur_map_0index % #map) + 1
 		--everyone's favorite lua feature
 		else
-			l.cur_map_index = l.cur_map_0index + 1
+			cur_map_index = cur_map_0index + 1
 		end
 
 		l:cycle_palette()
@@ -131,17 +133,19 @@ end
 
 function ss_map:draw()
 	for l in all(self) do
+		local _ENV = l
+
 		--@todo this is only shoved into
 		--l.sprites to conform with use in
 		--actors:cycle_palette()
 		--and actors:ssprs()
 		--would we ever need to
 		--loop through multiple sprites?
-		local spr = l.sprites[1]
+		local spr = sprites[1]
 
 		--only proceed if map cel is in-range
-		--(ignore l.cur_map_index > #l.map)
-		if (l.map[l.cur_map_index]) then
+		--(ignore l.cur_map_index > #map)
+		if (map[l.cur_map_index]) then
 			--draw up to 3 map cels on x-axis,
 			--assuming cels are 128px wide
 			--and cam.s >= .5 (256 scaled px wide)
@@ -155,23 +159,23 @@ function ss_map:draw()
 				--prevent cur_map_0index < 0
 				--from canceling out l.scrolledx
 				--if l.scrolledx is also < 0
-				spr.dx = (l.cur_map_0index >= 0 and l.cur_map_0index * spr.dw or 0) - l.scrolledx
+				spr.dx = (cur_map_0index >= 0 and cur_map_0index * spr.dw or 0) - scrolledx
 				--add (i * spr[3]) to spr.dx to get
 				--next map cel's dx,
 				--and massage heavily to prevent
 				--scaling errors like motion judder
 				spr.dx = ceil((flr(spr.dx * cam.scale) + (i * flr(spr.dw * cam.scale))) / cam.scale)
 
-				spr.dy = l.y - cam.y
+				spr.dy = y - cam.y
 
 				--if l.infinite, then
 				--wrap back around to
 				--draw first map cel
-				local cur_map_index = l.infinite and ((l.cur_map_index + i - 1) % #l.map) + 1 or l.cur_map_index + i
+				local cur_map_index = infinite and ((l.cur_map_index + i - 1) % #map) + 1 or l.cur_map_index + i
 
 				if (
 					--if map cel data exists
-					l.map[cur_map_index]
+					map[cur_map_index]
 					--if in-camera
 					and spr.dx <= cam.l
 					and spr.dx + spr.dw >= 0
@@ -180,15 +184,15 @@ function ss_map:draw()
 				) then
 					--only load spritesheet
 					--if different than current
-					if (l.map[cur_map_index] ~= self.cur_ss) then
-						poke4(0, unpack(ss_data[l.map[cur_map_index]]))
+					if (map[cur_map_index] ~= self.cur_ss) then
+						poke4(0, unpack(ss_data[map[cur_map_index]]))
 					end
 
 					actors:ssprs(spr)
 				end
 
 				--save ss_data_index
-				self.cur_ss = l.map[cur_map_index]
+				self.cur_ss = map[cur_map_index]
 
 				--reset l.dx
 				spr.dx = dx

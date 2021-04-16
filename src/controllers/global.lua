@@ -16,7 +16,7 @@ end
 function get_gravity(clock, m)
 	local m = m or 1
 
-	if(clock == 2) then
+	if clock == 2 then
 		return 2
 	else
 		return ceil((clock/2)^2) * m
