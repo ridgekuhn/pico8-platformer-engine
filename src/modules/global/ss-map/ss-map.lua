@@ -96,6 +96,9 @@ function ss_map:new(layer)
 	setmetatable(layer, self)
 	self.__index = self
 
+	layer.sprites[1].dw = layer.sprites[1].dw or layer.sprites[1][3]
+	layer.sprites[1].dh = layer.sprites[1].dh or layer.sprites[1][4]
+
 	return layer
 end
 
@@ -105,7 +108,7 @@ function ss_map:update()
 		--the initial map position of l
 		l.scrolledx = (cam.x * l.scroll) - l.x
 		--get 0-index of current map cel
-		l.cur_map_0index = l.scrolledx \ 128
+		l.cur_map_0index = l.scrolledx \ l.sprites[1].dw
 
 		--default to 1 if the first x pos
 		--is out of range, so we can
@@ -152,12 +155,12 @@ function ss_map:draw()
 				--prevent cur_map_0index < 0
 				--from canceling out l.scrolledx
 				--if l.scrolledx is also < 0
-				spr.dx = (l.cur_map_0index >= 0 and l.cur_map_0index * spr[3] or 0) - l.scrolledx
+				spr.dx = (l.cur_map_0index >= 0 and l.cur_map_0index * spr.dw or 0) - l.scrolledx
 				--add (i * spr[3]) to spr.dx to get
 				--next map cel's dx,
 				--and massage heavily to prevent
 				--scaling errors like motion judder
-				spr.dx = ceil((flr(spr.dx * cam.scale) + (i * flr(spr[3] * cam.scale))) / cam.scale)
+				spr.dx = ceil((flr(spr.dx * cam.scale) + (i * flr(spr.dw * cam.scale))) / cam.scale)
 
 				spr.dy = l.y - cam.y
 
@@ -171,13 +174,21 @@ function ss_map:draw()
 					l.map[cur_map_index]
 					--if in-camera
 					and spr.dx <= cam.l
-					and spr.dx + spr[3] >= 0
+					and spr.dx + spr.dw >= 0
 					and spr.dy <= cam.l
-					and spr.dy + spr[4] >= 0
+					and spr.dy + spr.dh >= 0
 				) then
-					poke4(0, unpack(ss_data[l.map[cur_map_index]]))
+					--only load spritesheet
+					--if different than current
+					if (l.map[cur_map_index] ~= self.cur_ss) then
+						poke4(0, unpack(ss_data[l.map[cur_map_index]]))
+					end
+
 					actors:ssprs(spr)
 				end
+
+				--save ss_data_index
+				self.cur_ss = l.map[cur_map_index]
 
 				--reset l.dx
 				spr.dx = dx
