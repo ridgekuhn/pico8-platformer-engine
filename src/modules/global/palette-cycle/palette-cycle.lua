@@ -1,7 +1,10 @@
 ---set palette swaps
 --@usage
 --	pal_swaps = {
---		{0,1,0}, {1,2}, {2,3,1}
+--		{
+--			{0,1,0}, {1,2}, {2,3,1}
+--		},
+--		...etc
 --	}
 --
 --	set_palette(pal_swaps)
@@ -30,21 +33,29 @@ end
 --
 --@usage
 --	pal_swaps = {
---		{0,1,0}, {2,3,1}
+--		{
+--			{0,1,0}, {2,3,1}
+--		},
+--		...etc
 --	}
 --
 --	pal_swaps = cycle_palette(pal_swaps)
 --
 --expected:
 --	pal_swaps = {
---		{0,3,1}, {2,1,0}
+--		{
+--			{0,3,1}, {2,1,0}
+--		},
+--		...etc
 --	}
 --
 --@param pal_swaps tbl palette swap data
 --
 --@returns tbl cycled palette swaps
 function cycle_palette(pal_swaps)
-	local new_p = {}
+	local new_p = {
+		cycle = pal_swaps.cycle
+	}
 
 	--copy last value to first index
 	new_p[1] = {pal_swaps[1][1], pal_swaps[#pal_swaps][2], pal_swaps[#pal_swaps][3]}
@@ -57,13 +68,19 @@ function cycle_palette(pal_swaps)
 	return new_p
 end
 
+---cycle actor palette
+--cycles palettes for actor sprites
 function actors:cycle_palette()
 	for sprite in all(self.sprites) do
-		if
-			sprite.pal_cycle
-			and self.sclock % sprite.pal_cycle == 0
-		then
-			sprite.pal_swaps = cycle_palette(sprite.pal_swaps)
+		if sprite.pal_swaps then
+			for k,v in pairs(sprite.pal_swaps) do
+				if
+					v. cycle
+					and self.sclock % v.cycle == 0
+				then
+					sprite.pal_swaps[k] = cycle_palette(v)
+				end
+			end
 		end
 	end
 end

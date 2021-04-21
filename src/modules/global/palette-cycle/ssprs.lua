@@ -13,7 +13,9 @@ function actors:ssprs(sprite)
 		local dh = sprite.dh or sprite[4]
 
 		if (sprite.pal_swaps) then
-			set_palette(sprite.pal_swaps)
+			for swaps in all(sprite.pal_swaps) do
+				set_palette(swaps)
+			end
 		end
 
 		sspr(
