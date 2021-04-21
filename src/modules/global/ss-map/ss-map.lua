@@ -15,7 +15,8 @@
 ---initialize spritesheet map
 --@usage
 --[[
-ss_data = {
+
+ss_data = ss_packer_init({
 	[1] = {
 		--length of *un*compressed string
 		--eg, (sw * sh) / 2
@@ -24,70 +25,74 @@ ss_data = {
 		[2] = 'yourCompressedPX9string'
 	},
 	...etc
-}
-
-ss_packer_init(ss_data)
-
-ss_map = actors:new({
-	--[1] a map layer
-	{
-		--each map cel corresponds to
-		--an index of ss_data
-		map = {1,2},
-		----first map cel to be drawn
-		--cur_map_0index = this.scrolledx \ 128
-		--cur_map_index = this.cur_map_0index + 1
-
-		--repeat map cels forever
-		infinite = true,
-
-		--x is initial position on map,
-		--regardless of parallax scrolling
-		x = 0,
-		y = 80,
-
-		--parallax scroll rate
-		scroll = .5,
-		----parallax scrolled position
-		----relative to cam.x,
-		--scrolledx = (cam.x * this.scroll) - this.x,
-
-		sprites = {
-			{
-				--args to pass to sspr()
-				--sx
-				[1] = 0,
-				--sy
-				[2] = 0,
-				--sw
-				[3] = 128,
-				--sh
-				[4] = 128,
-
-				--the following props are
-				--calculated in update and must
-				--multiplied by cam.scale
-				--before drawing!
-				--dx = ((this.cur_map_index * 128) - this.scrolledx),
-				--dy = (this.y - cam.y),
-				--dw = this.sw,
-				--dh = this.sh,
-				--flip_x = nil,
-				--flip_y = nil
-
-				--args to pass to
-				--set_palette() and cycle_palette()
-				pal_swaps = {
-					{0,0, true}, {1,1}, {2, 2}, {3, 3}
-				}
-				--framerate of palette cycle in
-				--update60 loops per frame
-				pal_cycle = 60,
-			}
-		}
-	},
-	...etc
 })
+
+function ss_map:init()
+	for l in all({
+		--[1] a map layer
+		{
+			--each map cel corresponds to
+			--an index of ss_data
+			map = {1,2},
+			----first map cel to be drawn
+			--cur_map_0index = this.scrolledx \ 128
+			--cur_map_index = this.cur_map_0index + 1
+
+			--repeat map cels forever
+			infinite = true,
+
+			--x is initial position on map,
+			--regardless of parallax scrolling
+			x = 0,
+			y = 80,
+
+			--parallax scroll rate
+			scroll = .5,
+			----parallax scrolled position
+			----relative to cam.x,
+			--scrolledx = (cam.x * this.scroll) - this.x,
+
+			sprites = {
+				{
+					--args to pass to sspr()
+					--sx
+					[1] = 0,
+					--sy
+					[2] = 0,
+					--sw
+					[3] = 128,
+					--sh
+					[4] = 128,
+
+					--the following props are
+					--calculated in update and must
+					--multiplied by cam.scale
+					--before drawing!
+					--dx = ((this.cur_map_index * 128) - this.scrolledx),
+					--dy = (this.y - cam.y),
+					--dw = this.sw,
+					--dh = this.sh,
+					--flip_x = nil,
+					--flip_y = nil
+
+					--args to pass to
+					--set_palette() and cycle_palette()
+					pal_swaps = {
+						{0,0, true}, {1,1}, {2, 2}, {3, 3}
+					}
+					--framerate of palette cycle in
+					--update60 loops per frame
+					pal_cycle = 60,
+				}
+			}
+		},
+		...etc
+	}) do
+		add(self, self:new(l})
+	end
+end
+
+ss_map:init()
 --]]
 
 ss_map = actors:new()

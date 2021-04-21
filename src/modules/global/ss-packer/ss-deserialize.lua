@@ -60,12 +60,16 @@ end
 --
 --@param ss_data tbl compressed ss data
 function ss_packer_init(ss_data)
+	local packed = {}
+
 	for k,ss in pairs(ss_data) do
 		--swap spritesheet
 		ss_deserialize(ss[3])
 		--pack spritesheet bytes into table
-		ss_data[k] = ss_pack(ss[1])
+		packed[k] = ss_pack(ss[1])
 		--store sw,sh at index 0
-		ss_data[k][0] = split(ss[2])
+		packed[k][0] = split(ss[2])
 	end
+
+	return packed
 end
