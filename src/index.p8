@@ -15,7 +15,6 @@ __lua__
 
 -->8
 ---engine controllers
-#include ./controllers/global.lua
 #include ./controllers/actors.lua
 #include ./controllers/players.lua
 
