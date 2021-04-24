@@ -10,19 +10,16 @@
 --	none
 
 ---deserialize string to spritesheet
+--using screen as buffer
 --@param str str px9-compressed string
---
---@param [addr] num memory address
---	to use as decompression buffer
-function ss_deserialize(str, addr)
-	local addr = addr or 0x6000
+function ss_deserialize(str)
+  for i = 1, #str do
+		local addr = 0x6000 + (i - 1)
 
-  for i = 1, #str, 8 do
-    local num = '0x' .. sub(str, i, i + 3) .. '.' .. sub(str, i + 4, i + 7)
-    poke4(addr + ((i - 1) / 2), num)
+		poke(addr, ord(str, i))
   end
 
-  px9_decomp(0,0,0x6000,sget, sset)
+  px9_decomp(0,0,0x6000,sget,sset)
 end
 
 ---store spritesheet in a table
@@ -47,11 +44,11 @@ end
 --@usage
 --	ss_data = {
 --		[1] = {
---			--length of *un*compressed string
---			--eg, (sw * sh) / 2
---			[1] = 8192,
+--			--spritesheet dimensions
+--			--as a string, 'w,h'
+--			[1] = '128,128',
 --			--compressed px9 string
---			[2] = 'yourCompressedPX9string'
+--			[2] = 'binarystring'
 --		},
 --		...
 --	}
@@ -63,12 +60,16 @@ function ss_packer_init(ss_data)
 	local packed = {}
 
 	for k,ss in pairs(ss_data) do
+		local dimensions = split(ss[1])
+
 		--swap spritesheet
-		ss_deserialize(ss[3])
+		ss_deserialize(ss[2])
+
 		--pack spritesheet bytes into table
-		packed[k] = ss_pack(ss[1])
+		packed[k] = ss_pack(ceil((dimensions[1] * dimensions[2]) / 2))
+
 		--store sw,sh at index 0
-		packed[k][0] = split(ss[2])
+		packed[k][0] = dimensions
 	end
 
 	return packed
