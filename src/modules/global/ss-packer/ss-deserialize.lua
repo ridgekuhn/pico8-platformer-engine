@@ -1,7 +1,10 @@
----decompress spritesheet and store in table
+---decompress spritesheets
+--from table of strings
+--and store in a table
 --
 --dependencies:
 --	global/px9v7/px9v7-decomp.lua
+--	./ss-pack.lua
 --
 --extends:
 --	none
@@ -20,21 +23,6 @@ function ss_deserialize(str)
   end
 
   px9_decomp(0,0,0x6000,sget,sset)
-end
-
----store spritesheet in a table
---4 byte hex words per key
---
---@param ulen num byte length
---	of uncompressed string
-function ss_pack(ulen)
-  local tbl = {}
-
-  for i = 0, ulen - 1, 4 do
-    add(tbl, peek4(i))
-  end
-
-  return tbl
 end
 
 ---decrompress and pack spritesheets
@@ -56,7 +44,9 @@ end
 --	poke4(0, unpack(ss_data[1]))
 --
 --@param ss_data tbl compressed ss data
-function ss_packer_init(ss_data)
+--
+--@return tbl table of ss 4-byte tables
+function ss_pack_str(ss_data)
 	local packed = {}
 
 	for k,ss in pairs(ss_data) do
