@@ -4,3 +4,6 @@
 [submodule "vendor/pic2pico"]
 	path = vendor/pic2pico
 	url = git@github.com:nodepond/pic2pico.git
+[submodule "src/modules/global/table-string"]
+	path = src/modules/global/table-string
+	url = git@github.com:ridgekuhn/pico8-table-string
