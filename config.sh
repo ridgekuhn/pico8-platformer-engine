@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PICOTOOL='./vendor/picotool/p8tool'
+PICO8='/Applications/PICO-8.app/Contents/MacOS/pico8'
 
 COMPILED="./src/dist.p8";
 LUAINDEX="./src/index.p8";
